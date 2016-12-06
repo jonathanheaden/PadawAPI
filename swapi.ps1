@@ -24,8 +24,8 @@ function get_one($resource, $id) {
     } else {
         try { $item = (invoke-webrequest http://swapi.co/api/$resource/$id/).content | convertfrom-json }
         catch { $item = new-errorobject $resource $id }
-        return $item
         }
+        return $item
 }
 
 function new-errorobject ($resource, $id){
