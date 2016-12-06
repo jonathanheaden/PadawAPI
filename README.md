@@ -24,5 +24,16 @@ The listed functions will be available for use
 - `play-crawl ($film)` play the opening crawl of a film instance
 - `get-resourcetype ($object)` get the type of resource object
 
+### Examples
+Get a reference to 'a new hope' and play the opening crawl
+```powershell
+$film = get-film 1  
+$film.PlayOpeningCrawl()
+```
+List the character names in 'return of the jedi'
+```powershell
+$film = get-film 3  
+$film.CharacterNames()
+```
 ## License
 PadawAPI is available under the MIT license. See the LICENSE file for more info.
