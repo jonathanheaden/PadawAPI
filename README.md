@@ -1,9 +1,12 @@
 # PadawAPI a powershell wrapper for Star Wars API
+
 ## About
 a powershell wrapper for connecting to the Star Wars API.
+
 ## Requires
 - internet connectivity
-  - if behind a proxy then powershell may need to pass credentials.... sometimes having a browser open and connected will enable PS to piggyback on the established connection
+  - if behind a proxy then powershell may need to pass credentials.... sometimes having a browser open and connected will enable PS to reuse established connection
+
 ## How to use
 Import the module using `import-module SWAPI.ps1`  
 The listed functions will be available for use
