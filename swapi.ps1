@@ -64,7 +64,14 @@ function get-planet($id){
 }
 
 function get-film($id){
-    get_one films $id
+    $film = get_one films $id
+    add-member -InputObject $film -MemberType ScriptMethod -name PlayOpeningCrawl -Value {
+          play-crawl $this
+     }
+    add-member -InputObject $film -MemberType ScriptMethod -name CharacterNames -Value {
+          $this.characters | % {$x = [int]$_.split("/")[5];(get-person $x).name}
+     }
+     return $film
 }
 
 function get-species($id){
@@ -84,7 +91,6 @@ function get-vehicle($id){
 }
 
 function get-resourcetype ($object) {
-
     $resourcemap[$object.url.split('/')[4]]
 }
 
