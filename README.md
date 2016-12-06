@@ -13,6 +13,7 @@ The listed functions will be available for use
 `get-planet ($id)`
 `get-film ($id)`
 `get-species ($id)`
+`get-race ($id)`
 `get-starship ($id)`
 `get-vehicle ($id)`
 `play-crawl ($film)`
