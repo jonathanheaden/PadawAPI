@@ -14,10 +14,13 @@ $resourcemap = @{
      'starships' = 'starship'
      'vehicles' = 'vehicle'
 }
+
 # Private Functions
 function get_one($resource, $id) {
     if (($id -isnot [int]) -or ($resourceTypes -notcontains $resource)){
         $item = new-errorobject $resource $id
+        $extraDetails = "ID must be an integer`nResource must be one of: $([string]::join(",",$resourceTypes))"
+        add-member -inputobject $item -membertype noteproperty -name "ExtraDetails" -value $extraDetails
     } else {
         try { $item = (invoke-webrequest http://swapi.co/api/$resource/$id/).content | convertfrom-json }
         catch { $item = new-errorobject $resource $id }
@@ -42,6 +45,7 @@ function pad-CRLFLine ($line,$padlength, $offset){
         " " + $line.insert(($length - $offset), (" " * ($offset + ($padlength - $length))))
     }
 }
+
 # Public Functions
 function get-all($resource) {
     $returnvals = @()
@@ -80,12 +84,13 @@ function get-vehicle($id){
 }
 
 function get-resourcetype ($object) {
+
     $resourcemap[$object.url.split('/')[4]]
 }
 
 function play-crawl ($film){
     $crawl = $film.opening_crawl.split("`n")
-    $max = ($crawl | % { $_.length } | measure-object -maximum ).maximum  
+    $max = ($crawl | % { $_.length } | measure-object -maximum).maximum  
     $offset = 1
     for ($i = 0; $i -lt $crawl.length; $i++) {
         $line = $crawl[$i]
