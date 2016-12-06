@@ -7,17 +7,18 @@ a powershell wrapper for connecting to the Star Wars API.
 ## How to use
 Import the module using `import-module SWAPI.ps1`  
 The listed functions will be available for use
+
 ### Functions
-`get-all ($resource)`
-`get-person ($id)`
-`get-planet ($id)`
-`get-film ($id)`
-`get-species ($id)`
-`get-race ($id)`
-`get-starship ($id)`
-`get-vehicle ($id)`
-`play-crawl ($film)`
-`get-resourcetype ($object)`
+- `get-all ($resource)`
+- `get-person ($id)`
+- `get-planet ($id)`
+- `get-film ($id)`
+- `get-species ($id)`
+- `get-race ($id)`
+- `get-starship ($id)`
+- `get-vehicle ($id)`
+- `play-crawl ($film)`
+- `get-resourcetype ($object)`
 
 ## License
-- TODO
+PadawAPI is available under the MIT license. See the LICENSE file for more info.
