@@ -6,6 +6,14 @@ $resourceTypes = @(
      'starships',
      'vehicles'
 )
+$resourcemap = @{
+     'people' = 'person' 
+     'planets' = 'planet'
+     'films' = 'film'
+     'species' = 'race'
+     'starships' = 'starship'
+     'vehicles' = 'vehicle'
+}
 # Private Functions
 function get_one($resource, $id) {
     if (($id -isnot [int]) -or ($resourceTypes -notcontains $resource)){
@@ -69,6 +77,10 @@ function get-starship($id){
 
 function get-vehicle($id){
     get_one vehicles $id
+}
+
+function get-resourcetype ($object) {
+    $resourcemap[$object.url.split('/')[4]]
 }
 
 function play-crawl ($film){

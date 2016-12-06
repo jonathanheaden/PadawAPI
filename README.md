@@ -17,6 +17,7 @@ The listed functions will be available for use
 `get-starship ($id)`
 `get-vehicle ($id)`
 `play-crawl ($film)`
+`get-resourcetype ($object)`
 
 ## License
 - TODO
