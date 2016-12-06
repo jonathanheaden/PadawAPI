@@ -1,7 +1,7 @@
 # PadawAPI a powershell wrapper for Star Wars API
 
 ## About
-a powershell wrapper for connecting to the Star Wars API.
+a powershell wrapper for connecting to the [Star Wars API](https://swapi.co/).
 
 ## Requires
 - [powershell](https://github.com/PowerShell/PowerShell) for windows, mac or linux
