@@ -1,43 +1,29 @@
-function get-all($resource) {
-    $returns = @()
-    $count = ((invoke-webrequest http://swapi.co/api/$resource).content | convertfrom-json).count
-    $pagelimit = [math]::ceiling($count / 10)
-    1..$pagelimit | % {$returns += ((invoke-webrequest http://swapi.co/api/$resource/?page=$_).content | convertfrom-json).results }
-    return $returns
-    }
-
+$resourceTypes = @(
+     'people', 
+     'planets',
+     'films',
+     'species',
+     'starships',
+     'vehicles'
+)
+# Private Functions
 function get_one($resource, $id) {
-    return (invoke-webrequest http://swapi.co/api/$resource/$id/).content | convertfrom-json 
+    if (($id -isnot [int]) -or ($resourceTypes -notcontains $resource)){
+        $item = new-errorobject $resource $id
+    } else {
+        try { $item = (invoke-webrequest http://swapi.co/api/$resource/$id/).content | convertfrom-json }
+        catch { $item = new-errorobject $resource $id }
+        return $item
+        }
 }
 
-function get-person($id){
-    try { get_one people $id }
-    catch {"$id not found"}
-}
-
-function get-planet($id){
-    try {get_one planets $id}
-    catch {"$id not found"}
-}
-
-function get-film($id){
-    try {get_one films $id}
-    catch {"$id not found"}
-}
-
-function get-soecies($id){
-    try {get_one species $id}
-    catch {"$id not found"}
-}
-
-function get-starship($id){
-    try {get_one starships $id}
-    catch {"$id not found"}
-}
-
-function get-vehicle($id){
-    try {get_one vehicles $id}
-    catch {"$id not found"}
+function new-errorobject ($resource, $id){
+    $item = new-object system.object
+    $displaystring = "No record of type $resource was found for id:$id"
+    add-member -inputobject $item -membertype noteproperty -name "ResourceTypeRequested" -value $resource
+    add-member -inputobject $item -membertype noteproperty -name "id" -value $id
+    add-member -inputobject $item -membertype noteproperty -name "Description" -value $displaystring 
+    return $item
 }
 
 function pad-CRLFLine ($line,$padlength, $offset){
@@ -47,6 +33,38 @@ function pad-CRLFLine ($line,$padlength, $offset){
     } else {
         " " + $line.insert(($length - $offset), (" " * ($offset + ($padlength - $length))))
     }
+}
+# Public Functions
+function get-all($resource) {
+    $returnvals = @()
+    $count = ((invoke-webrequest http://swapi.co/api/$resource).content | convertfrom-json).count
+    $pagelimit = [math]::ceiling($count / 10)
+    1..$pagelimit | % {$returnvals += ((invoke-webrequest http://swapi.co/api/$resource/?page=$_).content | convertfrom-json).results }
+    return $returnvals
+    }
+
+function get-person($id){
+     get_one people $id 
+}
+
+function get-planet($id){
+    get_one planets $id
+}
+
+function get-film($id){
+    get_one films $id
+}
+
+function get-soecies($id){
+    get_one species $id
+}
+
+function get-starship($id){
+    get_one starships $id
+}
+
+function get-vehicle($id){
+    get_one vehicles $id
 }
 
 function play-crawl ($film){
