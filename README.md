@@ -4,6 +4,7 @@
 a powershell wrapper for connecting to the Star Wars API.
 
 ## Requires
+- [powershell](https://github.com/PowerShell/PowerShell) for windows, mac or linux
 - internet connectivity
   - if behind a proxy then powershell may need to pass credentials.... sometimes having a browser open and connected will enable PS to reuse established connection
 
