@@ -55,7 +55,11 @@ function get-film($id){
     get_one films $id
 }
 
-function get-soecies($id){
+function get-species($id){
+    get_one species $id
+}
+
+function get-race($id){
     get_one species $id
 }
 
