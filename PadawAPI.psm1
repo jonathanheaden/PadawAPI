@@ -111,7 +111,7 @@ function get-species($id, $addMethods = $true){
 }
 
 function get-race($id, $addMethods = $true){
-    get_one species $id $addMethods
+    get-species $id $addMethods
 }
 
 function get-starship($id, $addMethods = $true){
@@ -130,11 +130,17 @@ function get-starship($id, $addMethods = $true){
 function get-vehicle($id, $addMethods = $true){
     $vehicle = get_one vehicles $id
     if ($addMethods) {
+        add-member -InputObject $vehicle -MemberType noteproperty -name PilotList -value $false
         add-member -InputObject $vehicle -MemberType ScriptMethod -name PilotNames -Value {
-            $this.pilots | % {
-                $x = [int]$_.split("/")[5]
-                (get-person $x $false).name
-                }
+            if ($this.PilotList) {
+                $this.PilotList
+                } else { 
+                    $this.PilotList = ( $this.pilots | % {
+                    $x = [int]$_.split("/")[5]
+                    (get-person $x $false).name
+                    })
+                    $this.PilotList
+            }
         }
     }
     return $vehicle
