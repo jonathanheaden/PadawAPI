@@ -196,3 +196,5 @@ function play-crawl ($film){
         }
     }  
 }
+
+Export-ModuleMember get-all, get-person, get-planet, get-film, get-species, get-race, get-starship, get-vehicle, get-resourcetype, play-crawl
