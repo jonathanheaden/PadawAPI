@@ -67,8 +67,17 @@ function get-person($id, $addMethods = $true){
     }
 }
 
-function get-planet($id){
-    get_one planets $id
+function get-planet($id, $addMethods = $true){
+    $planet = get_one planets $id
+    if ($addMethods) {
+       add-member -InputObject $planet -MemberType ScriptMethod -name PeopleNames -Value {
+            $this.people | % {
+                $x = [int]$_.split("/")[5]
+                (get-person $x $false).name
+                }
+        }
+    }
+    return $planet
 }
 
 function get-film($id, $addMethods = $true){
@@ -87,20 +96,48 @@ function get-film($id, $addMethods = $true){
     return $film
 }
 
-function get-species($id){
-    get_one species $id
+function get-species($id, $addMethods = $true){
+    $race = get_one species $id
+    if ($addMethods) {
+        add-member -InputObject $race -MemberType ScriptMethod -name PeopleNames -Value {
+            $this.people | % {
+                $x = [int]$_.split("/")[5]
+                (get-person $x $false).name
+                }
+        }
+    }
+    return $race
 }
 
-function get-race($id){
-    get_one species $id
+function get-race($id, $addMethods = $true){
+    get_one species $id $addMethods
 }
 
-function get-starship($id){
-    get_one starships $id
+function get-starship($id, $addMethods = $true){
+    $starship = get_one starships $id
+    if ($addMethods) {
+        add-member -InputObject $starship -MemberType ScriptMethod -name PeopleNames -Value {
+            $this.people | % {
+                $x = [int]$_.split("/")[5]
+                (get-person $x $false).name
+                }
+        }
+    }
+    return $starship
 }
 
-function get-vehicle($id){
-    get_one vehicles $id
+function get-vehicle($id, $addMethods = $true){
+    $vehicle = get_one vehicles $id
+    if ($addMethods) {
+        add-member -InputObject $vehicle -MemberType ScriptMethod -name PeopleNames -Value {
+            $this.people | % {
+                $x = [int]$_.split("/")[5]
+                (get-person $x $false).name
+                }
+        }
+    }
+    return $vehicle
+    }
 }
 
 function get-resourcetype ($object) {

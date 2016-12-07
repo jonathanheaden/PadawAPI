@@ -21,7 +21,7 @@ GUID = 'c22e7fe2-929f-46f7-bbf0-718db7b70706'
 Author = 'Jonathan Headen'
 
 # Company or vendor of this module
-CompanyName = 'Unknown'
+CompanyName = 'none'
 
 # Copyright statement for this module
 Copyright = '(c) 2016 Jonathan Headen. All rights reserved.'
