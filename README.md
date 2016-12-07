@@ -3,13 +3,13 @@
 ## About
 a powershell wrapper for connecting to the [Star Wars API](https://swapi.co/).
 
-## Requires
+## Requirements
 - [powershell](https://github.com/PowerShell/PowerShell) for windows, mac or linux
 - internet connectivity
   - if behind a proxy then powershell may need to pass credentials.... sometimes having a browser open and connected will enable PS to reuse established connection
 
 ## How to use
-Import the module using `import-module PadawAPI.psd1`  
+Import the module using `import-module PadawAPI.psd1`. For macos and linux the manifest module import might not work, if so import the module file directly using `import-module PadawAPI.psm1` 
 The listed functions will be available for use
 
 ### Functions
@@ -30,6 +30,11 @@ Get a reference to 'a new hope' and play the opening crawl
 $film = get-film 1  
 $film.PlayOpeningCrawl()
 ```
+Play the opening crawl for 'the empire stikes back' without keeping a reference
+```powershell
+play-crawl (get-film 2)
+```
+
 List the character names in 'return of the jedi'
 ```powershell
 $film = get-film 3  
