@@ -137,7 +137,6 @@ function get-vehicle($id, $addMethods = $true){
         }
     }
     return $vehicle
-    }
 }
 
 function get-resourcetype ($object) {
