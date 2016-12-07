@@ -61,17 +61,18 @@ function get-person($id, $addMethods = $true){
         add-member -InputObject $person -MemberType ScriptMethod -name FilmNames -Value {
             $this.films | % {
                 $x = [int]$_.split("/")[5]
-                (get-film $x $false).name
+                (get-film $x $false).title
                 }
         }
     }
+    return $person
 }
 
 function get-planet($id, $addMethods = $true){
     $planet = get_one planets $id
     if ($addMethods) {
        add-member -InputObject $planet -MemberType ScriptMethod -name PeopleNames -Value {
-            $this.people | % {
+            $this.residents | % {
                 $x = [int]$_.split("/")[5]
                 (get-person $x $false).name
                 }
@@ -116,8 +117,8 @@ function get-race($id, $addMethods = $true){
 function get-starship($id, $addMethods = $true){
     $starship = get_one starships $id
     if ($addMethods) {
-        add-member -InputObject $starship -MemberType ScriptMethod -name PeopleNames -Value {
-            $this.people | % {
+        add-member -InputObject $starship -MemberType ScriptMethod -name PilotNames -Value {
+            $this.pilots | % {
                 $x = [int]$_.split("/")[5]
                 (get-person $x $false).name
                 }
@@ -129,8 +130,8 @@ function get-starship($id, $addMethods = $true){
 function get-vehicle($id, $addMethods = $true){
     $vehicle = get_one vehicles $id
     if ($addMethods) {
-        add-member -InputObject $vehicle -MemberType ScriptMethod -name PeopleNames -Value {
-            $this.people | % {
+        add-member -InputObject $vehicle -MemberType ScriptMethod -name PilotNames -Value {
+            $this.pilots | % {
                 $x = [int]$_.split("/")[5]
                 (get-person $x $false).name
                 }
