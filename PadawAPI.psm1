@@ -100,11 +100,17 @@ function get-film($id, $addMethods = $true){
 function get-species($id, $addMethods = $true){
     $race = get_one species $id
     if ($addMethods) {
+        add-member -InputObject $vehicle -MemberType noteproperty -name PeopleList -value $false
         add-member -InputObject $race -MemberType ScriptMethod -name PeopleNames -Value {
-            $this.people | % {
-                $x = [int]$_.split("/")[5]
-                (get-person $x $false).name
-                }
+           if ($this.PeopleList) {
+                $this.PeopleList
+                } else { 
+                    $this.PeopleList = ( $this.pilots | % {
+                    $x = [int]$_.split("/")[5]
+                    (get-person $x $false).name
+                    })
+                    $this.PeopleList
+            }
         }
     }
     return $race
