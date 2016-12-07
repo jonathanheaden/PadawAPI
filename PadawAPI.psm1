@@ -58,11 +58,17 @@ function get-all($resource) {
 function get-person($id, $addMethods = $true){
     $person = get_one people $id 
     if ($addMethods) {
+        add-member -InputObject $film -MemberType noteproperty -name FilmList -value $false
         add-member -InputObject $person -MemberType ScriptMethod -name FilmNames -Value {
-            $this.films | % {
-                $x = [int]$_.split("/")[5]
-                (get-film $x $false).title
-                }
+            if ($this.FilmList) {
+                    $this.FilmList
+                } else { 
+                    $this.FilmList = ( $this.films | % {
+                        $x = [int]$_.split("/")[5]
+                        (get-film $x $false).name
+                        })
+                    $this.FilmList
+            }
         }
     }
     return $person
@@ -71,11 +77,17 @@ function get-person($id, $addMethods = $true){
 function get-planet($id, $addMethods = $true){
     $planet = get_one planets $id
     if ($addMethods) {
-       add-member -InputObject $planet -MemberType ScriptMethod -name PeopleNames -Value {
-            $this.residents | % {
-                $x = [int]$_.split("/")[5]
-                (get-person $x $false).name
-                }
+        add-member -InputObject $film -MemberType noteproperty -name PeopleList -value $false
+        add-member -InputObject $planet -MemberType ScriptMethod -name PeopleNames -Value {
+            if ($this.PeopleList) {
+                    $this.PeopleList
+                } else { 
+                    $this.PeopleList = ( $this.residents | % {
+                        $x = [int]$_.split("/")[5]
+                        (get-person $x $false).name
+                        })
+                    $this.PeopleList
+            }
         }
     }
     return $planet
@@ -87,11 +99,17 @@ function get-film($id, $addMethods = $true){
         add-member -InputObject $film -MemberType ScriptMethod -name PlayOpeningCrawl -Value {
             play-crawl $this
         }
+        add-member -InputObject $film -MemberType noteproperty -name CharacterList -value $false
         add-member -InputObject $film -MemberType ScriptMethod -name CharacterNames -Value {
-            $this.characters | % {
-                $x = [int]$_.split("/")[5]
-                (get-person $x $false).name
-                }
+                if ($this.CharacterList) {
+                    $this.CharacterList
+                } else { 
+                    $this.CharacterList = ( $this.characters | % {
+                        $x = [int]$_.split("/")[5]
+                        (get-person $x $false).name
+                        })
+                    $this.CharacterList
+            }
         }
     }
     return $film
@@ -105,7 +123,7 @@ function get-species($id, $addMethods = $true){
            if ($this.PeopleList) {
                 $this.PeopleList
                 } else { 
-                    $this.PeopleList = ( $this.pilots | % {
+                    $this.PeopleList = ( $this.people | % {
                     $x = [int]$_.split("/")[5]
                     (get-person $x $false).name
                     })
