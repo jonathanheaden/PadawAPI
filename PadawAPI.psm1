@@ -55,23 +55,36 @@ function get-all($resource) {
     return $returnvals
     }
 
-function get-person($id){
-     get_one people $id 
+function get-person($id, $addMethods = $true){
+    $person = get_one people $id 
+    if ($addMethods) {
+        add-member -InputObject $person -MemberType ScriptMethod -name FilmNames -Value {
+            $this.films | % {
+                $x = [int]$_.split("/")[5]
+                (get-film $x $false).name
+                }
+        }
+    }
 }
 
 function get-planet($id){
     get_one planets $id
 }
 
-function get-film($id){
+function get-film($id, $addMethods = $true){
     $film = get_one films $id
-    add-member -InputObject $film -MemberType ScriptMethod -name PlayOpeningCrawl -Value {
-          play-crawl $this
-     }
-    add-member -InputObject $film -MemberType ScriptMethod -name CharacterNames -Value {
-          $this.characters | % {$x = [int]$_.split("/")[5];(get-person $x).name}
-     }
-     return $film
+    if ($addMethods) {
+        add-member -InputObject $film -MemberType ScriptMethod -name PlayOpeningCrawl -Value {
+            play-crawl $this
+        }
+        add-member -InputObject $film -MemberType ScriptMethod -name CharacterNames -Value {
+            $this.characters | % {
+                $x = [int]$_.split("/")[5]
+                (get-person $x $false).name
+                }
+        }
+    }
+    return $film
 }
 
 function get-species($id){
