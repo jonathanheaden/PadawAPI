@@ -58,14 +58,14 @@ function get-all($resource) {
 function get-person($id, $addMethods = $true){
     $person = get_one people $id 
     if ($addMethods) {
-        add-member -InputObject $film -MemberType noteproperty -name FilmList -value $false
+        add-member -InputObject $person -MemberType noteproperty -name FilmList -value $false
         add-member -InputObject $person -MemberType ScriptMethod -name FilmNames -Value {
             if ($this.FilmList) {
                     $this.FilmList
                 } else { 
                     $this.FilmList = ( $this.films | % {
                         $x = [int]$_.split("/")[5]
-                        (get-film $x $false).name
+                        (get-film $x $false).title
                         })
                     $this.FilmList
             }
